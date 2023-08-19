@@ -1,10 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import logger from './utils/logger';
+import { connectToDB } from './utils/db';
 
 dotenv.config();
 
 const app = express();
+
+connectToDB();
 
 const PORT = process.env.PORT;
 
