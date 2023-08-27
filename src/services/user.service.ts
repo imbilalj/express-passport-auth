@@ -7,3 +7,9 @@ export const createUser = (createUserRequest: CreateUserRequest) => {
 
   return user;
 };
+
+export const findUserByEmail = (email: string) => {
+  const user = User.findOne({ email });
+
+  return user;
+};
