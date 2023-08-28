@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import { Schema, model, Document, InferSchemaType } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -23,4 +23,6 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
-export const User = mongoose.model('User', UserSchema);
+export type User = InferSchemaType<typeof UserSchema> & Document;
+
+export const UserModel = model<User>('User', UserSchema);
