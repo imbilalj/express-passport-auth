@@ -1,13 +1,20 @@
 import { Request, Response } from 'express';
-import { createUser } from '../services/user.service';
+import { createUser, findUserByEmail } from '../services/user.service';
 import { CreateUserRequest } from '../schemas/user.schema';
 
-export const createUserHandler = (
+export const createUserHandler = async (
   req: Request<{}, {}, CreateUserRequest>,
   res: Response
 ) => {
   const createUserRequest = req.body;
-  const user = createUser(createUserRequest);
+
+  let user = await findUserByEmail(createUserRequest.email);
+
+  if (user) {
+    return res.status(400).send({ message: 'Account already exists' });
+  }
+
+  user = createUser(createUserRequest);
 
   res.send(user);
 };
